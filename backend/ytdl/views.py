@@ -1,5 +1,4 @@
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -7,6 +6,9 @@ from django.utils import timezone
 from .models import Ytdl, YtdlModelForm
 from django.views.generic.edit import CreateView
 from django.views import generic
+from django.views.static import serve
+import os
+from wsgiref.util import FileWrapper
 
 from pytube import YouTube
 
@@ -35,6 +37,7 @@ class IndexViewCreate(CreateView):
 
 def download(request):
     print ("Yeeeet")
+   
     video_url = request.POST.get("l_ytdl_url", False)
     yt = YouTube(video_url)
 
@@ -43,12 +46,24 @@ def download(request):
     length = yt.length
     desc = yt.description
     rating = yt.rating
+    dirs = './Downloads'
 
-
-    yt.streams.first().download()
-    
+    # Hit that model with the good stuff 
     instance = Ytdl.objects.create(l_ytdl_title=title, l_ytdl_url=video_url)
     instance.save()
-    #res = render(request, "download/")
+    
+    # Download Stuff
+    pls = yt.streams.first().download(dirs)
+    wrapper = FileWrapper(open(pls, 'rb'))
+    response = HttpResponse(wrapper, content_type='video/mp4')
+    response['Content-Disposition'] = 'attachment; filename=CMPE_Vid.mp4'
 
-    return redirect('ytdl:index')
+    # Clean up Downloads
+    downloads = os.listdir("./Downloads")
+    print(downloads)
+    for vid in downloads:
+        if vid.endswith(".mp4"):
+            os.remove(os.path.join(dirs, vid))
+    
+    return response
+    
