@@ -4,10 +4,15 @@
 
 
 
-<div class="container">
-    {{object.l_ytdl_title}}
-    <br>
-    {{object.l_ytdl_url}}
+<div class="container" style="padding-top: 50px;">
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Title: </strong> {{object.l_ytdl_title}}</li>
+        <li class="list-group-item"> <strong>Link: </strong>
+            <a href= "{{object.l_ytdl_url}}"> {{object.l_ytdl_url}} </a> 
+        </li>
+    </ul>
+
+     
 
 </div>
 

@@ -1,6 +1,6 @@
 *.mp4
 ./*.mp4
-
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

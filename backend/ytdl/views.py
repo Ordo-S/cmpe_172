@@ -9,7 +9,6 @@ from django.views import generic
 from django.views.static import serve
 import os
 from wsgiref.util import FileWrapper
-
 from pytube import YouTube
 
 class IndexView(generic.ListView):
