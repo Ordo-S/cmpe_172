@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\templates",
+    "\\templates\\registration",
+    "\\ytdl",
+    "\\ytdl\\templates\\ytdl"
+  ],
+  "SelectedNode": "\\backend\\settings.py",
+  "PreviewInSolutionExplorer": false
+}
