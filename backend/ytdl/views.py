@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from .models import Ytdl, YtdlModelForm
+from .models import Ytdl, YtdlModelForm, userDownloadHistory
 from django.views.generic.edit import CreateView
 from django.views import generic
 from django.views.static import serve
@@ -11,12 +11,18 @@ import os
 from wsgiref.util import FileWrapper
 from pytube import YouTube
 
+from django.contrib.auth.models import User
+
+
 class IndexView(generic.ListView):
     template_name = 'ytdl/index.html'
     context_object_name = 'ytdlList'
 
     def get_queryset(self):
-        return Ytdl.objects.order_by('l_ytdl_title')
+        vids = Ytdl.objects.all() 
+        #print (userDownloadHistory.objects.filter(user_id = self.request.user.id).filter(videos__in = vids).values_list('videos', flat = True))
+        userVids = userDownloadHistory.objects.filter(user_id = self.request.user.id).values_list('videos', flat = True)
+        return Ytdl.objects.filter(pk__in = userVids).order_by('l_ytdl_title')  
 
 class DetailView(generic.DetailView):
     model = Ytdl      
@@ -50,6 +56,12 @@ def download(request):
     # Hit that model with the good stuff 
     instance = Ytdl.objects.create(l_ytdl_title=title, l_ytdl_url=video_url)
     instance.save()
+
+    #request.user.test = "test"
+    h = userDownloadHistory.objects.create(user=request.user, videos = instance)
+    #h.videos.add(instance)
+    #print(request.user.test + " this was testing")
+    #request.user.save()
     
     # Download Stuff
     pls = yt.streams.first().download(dirs)
