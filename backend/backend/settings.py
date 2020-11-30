@@ -25,7 +25,7 @@ SECRET_KEY = 'b22j3^k^r0mfgt2u%opr9b&(47p(8#&pxb2s#mt3ce(toszmdi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'NAME': 'Youtube',
+		 'CLIENT': {
+			'host': 'mongodb+srv://user1:123@ytdl.g9gdh.mongodb.net/Youtube?retryWrites=true&w=majority',
+		
+		}
     }
 }
 

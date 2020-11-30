@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils.text import slugify
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 class Ytdl(models.Model):
     l_ytdl_url = models.URLField(max_length=200, verbose_name="Video URL")
@@ -28,3 +29,10 @@ class YtdlModelForm(ModelForm):
     class Meta:
         model = Ytdl
         fields = ['l_ytdl_url']
+
+
+class userDownloadHistory(models.Model):
+     user = models.OneToOneField(User, on_delete=models.CASCADE)
+     #videos = models.ManyToManyField(Ytdl)
+     videos = models.ForeignKey(Ytdl, on_delete=models.CASCADE)
+     #test = models.CharField(max_length=30);
