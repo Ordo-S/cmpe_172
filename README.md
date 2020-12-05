@@ -1,10 +1,8 @@
 # Youtube Downloader
 
-## To get set up with a local version/may or may not work now with changes made to master
-
+## To get set up with a local version
 ```
-pip3 install django==2.2
-pip3 install pytube
+pip3 install -r requirements.txt
 ```
 
 ## To run server
