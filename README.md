@@ -1,6 +1,6 @@
 # Youtube Downloader
 
-## To get set up 
+## To get set up with a local version/may or may not work now with changes made to master
 
 ```
 pip3 install django==2.2
